@@ -1,0 +1,55 @@
+
+import { h } from "preact";
+
+import { MyButton } from './button/index';
+import { useState } from 'preact/hooks';
+
+
+import "ojs/ojinputnumber";
+import "ojs/ojformlayout";
+
+export function Content() {
+
+  const [count, setCount] = useState(0);
+  const [fValue, setFValue] = useState(0);
+  const [cValue, setCValue] = useState(0);
+
+  const updateFValue = (event: any) => {
+    setCValue(event.target.value);
+    setFValue(event.target.value * 1.8 + 32);
+    console.log('UPDATE F: ', event.target.value * 1.8 + 32);
+  }
+
+  const updateCValue = (event: any) => {
+    setFValue(event.target.value);
+    setCValue((event.target.value - 32) / 1.8);
+    console.log('UPDATE C: ', (event.target.value - 32) / 1.8);
+  }
+
+  const clicked = () => {
+    setCount(count + 1);
+  }
+
+  return (
+    <div class="oj-web-applayout-max-width oj-web-applayout-content">
+      <h3>My first experiment in VDOM Oracle JET Project!</h3>
+      <MyButton Style={{color:'green'}} ClickAction={clicked} Hint='Press the button above'>GO</MyButton>
+
+      <h3>Temperature Converter</h3>
+      <div></div>
+      <oj-form-layout maxColumns={2} direction="row">
+        <oj-input-number value={cValue}
+                         onvalueChanged={updateFValue}
+                         step={1}
+                         labelHint="Celcius"></oj-input-number>
+        <oj-input-number value={fValue}
+                         onvalueChanged={updateCValue}
+                         step={1}
+                         labelHint="Fahrenheit"></oj-input-number>
+      </oj-form-layout>
+
+    </div>
+  );
+};
+
+
